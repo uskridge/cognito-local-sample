@@ -1,0 +1,33 @@
+services:
+  nest-cli:
+    build: 
+      context: .
+      dockerfile: ./containers/nest-cli/Dockerfile
+    container_name: nest-cli
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    entrypoint: sh -c "chmod +x /usr/src/app/containers/nest-cli/scripts/init.sh && /usr/src/app/containers/nest-cli/scripts/init.sh && tail -f /dev/null"
+    # command: /bin/bash -c "yarn & yarn dev:docker"
+    depends_on:
+       - aws-cli
+  aws-cli:
+    build: ./containers/aws-cli
+    container_name: aws-cli
+    tty: true
+    volumes:
+      - ./containers/aws-cli:/root
+    env_file:
+      - .env.local
+    entrypoint: sh -c "chmod +x /root/scripts/init.sh && /root/scripts/init.sh && tail -f /dev/null"
+    depends_on:
+      - cognito
+  cognito:
+    image: motoserver/moto:latest
+    container_name: cognito
+    ports:
+      - "9099:9099"
+    environment:
+      - MOTO_PORT=9099 # set moto listener port with env var

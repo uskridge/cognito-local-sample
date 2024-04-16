@@ -1,0 +1,16 @@
+{
+  "name": "bts-backend-sample",
+  "workspaces": [
+    "modules/*"
+  ],
+  "scripts": {
+    "dev:docker": "yarn workspaces foreach --all --exclude bts-backend-sample run dev"
+  },
+  "private": true,
+  "packageManager": "yarn@4.1.1",
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5"
+  }
+}
