@@ -14,3 +14,4 @@
 
 /node_modules
 /containers/aws-cli/.aws/cognito.config.json
+/containers/aws-cli/.bash_history

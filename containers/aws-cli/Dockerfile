@@ -1,7 +1,7 @@
 FROM public.ecr.aws/amazonlinux/amazonlinux:2
 
 RUN yum update -y \
-  && yum install -y unzip less groff \
+  && yum install -y jq unzip less groff \
   && yum clean all
 
 ARG EXE_FILENAME=awscli-exe-linux-aarch64.zip
