@@ -1,4 +1,4 @@
-# bts-backend-sample
+# cognito-local-sample
 
 Docker で AWS CLI 環境を作り、Cognito をエミュレートできる moto を使って、同じくDocker上で動くNestのバックエンドでローカルで認証が試せる環境を構築するサンプルです。
 バックエンドは yarn workspaces を使ったモノレポとする想定です。
@@ -10,10 +10,20 @@ Docker で AWS CLI 環境を作り、Cognito をエミュレートできる moto
 % docker-compose up
 ```
 
+起動すると、`User Pool ID` と `Client ID` が `/Containers/aws-cli/.aws/cognito.config.json` にできる（コンテナの起動毎に変わる）。
+
+```/Containers/aws-cli/.aws/cognito.config.json
+{
+  "USER_POOL_ID" : "ap-northeast-1_12363360e1303b42ff0c6f320e6916236898b0a1",
+  "CLIENT_ID" : "13531g7o6ezqu2byh7st43xo6q"
+}
+```
+
 # 動作確認
 
 - Cognito
-  http://localhost:9099/
+  - http://localhost:9099/
+  - http://localhost:9099/moto-api/
 
 - API
   http://localhost:3000/api/
@@ -71,3 +81,8 @@ bash-4.2# curl http://cognito:9099/ap-northeast-1_805bc3e2ff2149b99524f71db3142f
   ]
 }
 ```
+
+
+# motoでできること
+
+https://docs.getmoto.org/en/latest/docs/services/cognito-idp.html
