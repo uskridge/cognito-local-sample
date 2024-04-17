@@ -44,3 +44,30 @@ bash-4.2# sh /root/scripts/auth.sh
     }
 }
 ```
+
+## aws-cliのコンテナから nestコンテナ向けに Bearer付きのリクエストを送る
+
+```shell
+bash-4.2# IdToken=eyJ0eXAiOiJKV1QiLCJraWQiOiJkdW1teSIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL2NvZ25pdG8taWRwLmFwLW5vcnRoZWFzdC0xLmFtYXpvbmF3cy5jb20vYXAtbm9ydGhlYXN0LTFfNTQxZTY1ZGJiZGFmNDUzNzkwMTU1OTI0ZWIxMTBiYmIiLCJzdWIiOiI3N2Q5MmE3Zi1iMDExLTQ4ODEtYjA4YS0xOTk2NmMzNjNmZGYiLCJhdWQiOiJiN3Z6MnUzbzZqd3lrMTh5eHp3bW8zZjU3YiIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNzEzMjQ5Mjg1LCJleHAiOjE3MTMyNTI4ODUsImNvZ25pdG86dXNlcm5hbWUiOiJidHMtZGV2LXVzZXJAaXJpZGdlLmpwIn0.Jj8lpO2R9pT40BH6OyCw_47Zg2xuhGD7q0UnN8sbuJYtWnFdIdIpVRlShbR9Q4yIPkiDp5VYA1bnA15rUbtYqOz3nggEIJJWaha0TFRt-DWpauLCEBdeJ4rJeoPTQCxCcyJKNygn99I6D4NG1SiFmhmxuZYgUqSuQ4xnxpNxs3jjI_6e09M9nzD1TnSOXdh9jP8pvtV6eGQwNHSJrWRNoD1daOLJLlasfWIjX6sH4ktzQ94xoXfFfRxPQTQdst3e7sItQOAN2qAogo3vApl5qVHCUsAEzqJTMnthtq-2e0pIfpllTNI5O8gBz3DLnMe-iAQmLO8RzvO4d_RjRU7_3Q
+
+bash-4.2# curl -H "Authorization: Bearer ${IdToken}" http://nest-cli:3000/api/
+Hello World!
+```
+
+##  aws-cliのコンテナから motoserverコンテナ向けにpublicKeyの取得を行う
+
+```shell
+bash-4.2# curl http://cognito:9099/ap-northeast-1_805bc3e2ff2149b99524f71db3142f45/.well-known/jwks.json -H "Authorization: AWS4-HMAC-SHA256 Credential=mock_access_key/20220524/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=asdf"
+{
+  "keys": [
+    {
+      "alg": "RS256",
+      "e": "AQAB",
+      "kid": "dummy",
+      "kty": "RSA",
+      "n": "j1pT3xKbswmMySvCefmiD3mfDaRFpZ9Y3Jl4fF0hMaCRVAt_e0yR7BeueDfqmj_NhVSO0WB5ao5e8V-9RFQOtK8SrqKl3i01-CyWYPICwybaGKhbJJR0S_6cZ8n5kscF1MjpIlsJcCzm-yKgTc3Mxk6KtrLoNgRvMwGLeHUXPkhS9YHfDKRe864iMFOK4df69brIYEICG2VLduh0hXYa0i-J3drwm7vxNdX7pVpCDu34qJtYoWq6CXt3Tzfi3YfWp8cFjGNbaDa3WnCd2IXpp0TFsFS-cEsw5rJjSl5OllJGeZKBtLeyVTy9PYwnk7MW43WSYeYstbk9NluX4H8Iuw",
+      "use": "sig"
+    }
+  ]
+}
+```
