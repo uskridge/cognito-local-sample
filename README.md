@@ -1,4 +1,4 @@
-# cognito-local-sample
+# cognito-api-gateway-local-sample
 
 Docker で AWS CLI 環境を作り、Cognito をエミュレートできる moto を使って、同じくDocker上で動くNestのバックエンドでローカルで認証が試せる環境を構築するサンプルです。
 バックエンドは yarn workspaces を使ったモノレポとする想定です。
@@ -82,7 +82,19 @@ bash-4.2# curl http://cognito:9099/ap-northeast-1_805bc3e2ff2149b99524f71db3142f
 }
 ```
 
-
 # motoでできること
 
 https://docs.getmoto.org/en/latest/docs/services/cognito-idp.html
+
+# SAMでローカルでAPI Gatewayを動かす
+
+1. sam init で プロジェクトを作成
+2. cd（新しいプロジェクトディレクトリ）
+
+以下で起動すると
+
+```shell
+bash-4.2# sam local start-api --host 0.0.0.0 --container-host host.docker.internal
+```
+
+ホスト側で、http://localhost:443/ でアクセスできる。
