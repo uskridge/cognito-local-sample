@@ -6,7 +6,6 @@ services:
     container_name: nest-cli
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
     ports:
       - "3000:3000"
     entrypoint: sh -c "chmod +x /usr/src/app/containers/nest-cli/scripts/init.sh && /usr/src/app/containers/nest-cli/scripts/init.sh && tail -f /dev/null"
@@ -19,6 +18,10 @@ services:
     tty: true
     volumes:
       - ./containers/aws-cli:/root
+      - ./modules:/usr/workspaces
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "443:3000"
     env_file:
       - .env.local
     entrypoint: sh -c "chmod +x /root/scripts/init.sh && /root/scripts/init.sh && tail -f /dev/null"

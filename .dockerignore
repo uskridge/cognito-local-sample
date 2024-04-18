@@ -1,2 +1,3 @@
-node_modules
+container/aws-cli/.bash_history
 modules/user-api/dist
+node_modules

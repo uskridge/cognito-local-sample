@@ -1,15 +1,20 @@
-FROM public.ecr.aws/amazonlinux/amazonlinux:2
+FROM python:3.9.19-slim
 
-RUN yum update -y \
-  && yum install -y jq unzip less groff \
-  && yum clean all
+RUN apt-get update \
+  && apt-get install -y curl unzip less groff jq docker.io \
+  && apt-get clean
 
-ARG EXE_FILENAME=awscli-exe-linux-aarch64.zip
+ARG AWS_CLI_ZIP=awscli-exe-linux-aarch64.zip
+ARG SAM_CLI_ZIP=aws-sam-cli-linux-arm64.zip
 
-RUN curl "https://awscli.amazonaws.com/${EXE_FILENAME}" -o "awscliv2.zip" \
+RUN curl "https://awscli.amazonaws.com/${AWS_CLI_ZIP}" -o "awscliv2.zip" \
   && unzip awscliv2.zip \
   && ./aws/install --bin-dir /usr/local/bin/ --install-dir /usr/local/aws-cli/
 
-WORKDIR /aws
+RUN curl -L "https://github.com/aws/aws-sam-cli/releases/latest/download/${SAM_CLI_ZIP}" -o "samcli.zip" \
+  && unzip samcli.zip -d sam-installation\
+  && ./sam-installation/install --bin-dir /usr/local/bin/ --install-dir /usr/local/aws-sam-cli/
+
+WORKDIR /usr/workspaces
 
 ENTRYPOINT ["/bin/bash"]
