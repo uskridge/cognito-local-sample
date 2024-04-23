@@ -15,6 +15,14 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/latest/download/${SAM_C
   && unzip samcli.zip -d sam-installation\
   && ./sam-installation/install --bin-dir /usr/local/bin/ --install-dir /usr/local/aws-sam-cli/
 
+# Node.jsのインストール
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable && corepack prepare yarn@stable --activate
+RUN npm install -g aws-cdk
+
 WORKDIR /usr/workspaces
 
 ENTRYPOINT ["/bin/bash"]
